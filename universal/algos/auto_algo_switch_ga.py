@@ -55,7 +55,7 @@ class AutoAlgoSwitch(Algo):
             1: "min",
             2: "ema",
             3: "ema2"
-        }  # 价格预测
+        }  
 
         self.direction_names = {
             0: "up",
@@ -81,7 +81,7 @@ class AutoAlgoSwitch(Algo):
 
         self.expert_n = len(self.infixes) * len(self.suffixes)
 
-        self.d = np.zeros(self.expert_n)  # 专家矩阵
+        self.d = np.zeros(self.expert_n)  
         self.select_expert = 0
 
         for prefix in self.prefixes:
@@ -161,14 +161,7 @@ class AutoAlgoSwitch(Algo):
         return B[self.select_expert]
 
     def predict_price(self, last_window_history, price_index):
-        """
-        预测 ~ 绝对价格
-        price_index:
-           0 max
-           1 min
-           2 ema
-           3 ema2
-        """
+      
         if price_index == 0:
             return last_window_history.max()
         elif price_index == 1:
@@ -192,12 +185,7 @@ class AutoAlgoSwitch(Algo):
             return False
 
     def relative_price(self, last_window_history, price, relative_index):
-        """
-        预测 ~ 相对价格
-        relative_index:
-           0 预测价格在上  up
-           1 预测价格在下  down
-        """
+        
         x = last_window_history.iloc[-1]
         if relative_index == 0:
             return price / x
@@ -234,13 +222,7 @@ class AutoAlgoSwitch(Algo):
         return last_b
 
     def update_new_b(self, delta, delta_t, last_b, update_index):
-        """
-        更新配比
-        update_index:(control condition2)
-            0
-            1
-            2
-        """
+        
         condition1 = np.dot(delta, delta_t)
         if condition1 == 0:
             return last_b
